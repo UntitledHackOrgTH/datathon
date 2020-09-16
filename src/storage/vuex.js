@@ -10,9 +10,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    [COLLECTION.User]: {
-      userId: uuidv4()
-    },
+    userId: uuidv4(),
+    [COLLECTION.User]: {},
     [COLLECTION.Quiz]: {},
     [COLLECTION.Game]: {}
   },
@@ -22,11 +21,16 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    saveStoreCollectionToFirebase({ state }, { collection }) {
-      const userId = state[COLLECTION.User].userId;
+    saveUserData({ state, commit }, { collection, data }) {
+      const { userId } = state;
+
+      commit("saveToStoreCollection", {
+        collection,
+        data
+      });
 
       return saveDocumentToDatabase(collection, userId, {
-        ...state[collection],
+        ...data,
         userId
       });
     }

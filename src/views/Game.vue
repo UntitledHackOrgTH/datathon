@@ -90,7 +90,7 @@
 
 <script>
 import draggable from "vuedraggable";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions } from "vuex";
 
 import Layout from "../layouts/default";
 import TopicCard from "../components/game/TopicCard";
@@ -139,8 +139,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["saveToStoreCollection"]),
-    ...mapActions(["saveStoreCollectionToFirebase"]),
+    ...mapActions(["saveUserData"]),
     selectOption(index) {
       if (this.isSorting) {
         return;
@@ -162,15 +161,11 @@ export default {
         );
         this.state++;
       } else if (this.isSorting) {
-        this.saveToStoreCollection({
+        this.saveUserData({
           collection: COLLECTION.Game,
           data: {
             topicIds: this.selectedTopics.map(({ id }) => id)
           }
-        });
-
-        this.saveStoreCollectionToFirebase({
-          collection: COLLECTION.Game
         });
 
         this.state++;

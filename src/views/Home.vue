@@ -26,10 +26,11 @@ import { COLLECTION } from "../storage/collection";
 export default {
   name: "Home",
   methods: {
-    ...mapActions(["saveStoreCollectionToFirebase"]),
+    ...mapActions(["saveUserData"]),
     async registerUserId() {
-      await this.saveStoreCollectionToFirebase({
-        collection: COLLECTION.User
+      await this.saveUserData({
+        collection: COLLECTION.User,
+        data: {}
       });
 
       this.$router.push("/quiz");
