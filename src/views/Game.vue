@@ -206,7 +206,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["saveToStore"]),
+    ...mapMutations(["saveToStoreCollection"]),
     selectOption(index) {
       if (this.isSorting) {
         return;
@@ -230,7 +230,7 @@ export default {
       } else if (this.isSorting) {
         this.state++;
       } else {
-        this.saveToStore({
+        this.saveToStoreCollection({
           collection: COLLECTION.Game,
           data: this.selectedTopics
         });
