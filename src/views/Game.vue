@@ -35,7 +35,7 @@
       >
         <TopicCard
           v-for="(topic, index) in displayTopics"
-          :key="topic.name"
+          :key="topic.id"
           :topic="topic"
           :onClick="() => selectOption(index)"
           :isSorting="isSorting"
@@ -90,84 +90,17 @@
 
 <script>
 import draggable from "vuedraggable";
-import { mapMutations } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 
 import Layout from "../layouts/default";
 import TopicCard from "../components/game/TopicCard";
 import EmojiMap from "../components/game/EmojiMap";
 import Motto from "../components/game/Motto";
+
 import { COLLECTION } from "../storage/collection";
+import { topics } from "../data/GameTopics.json";
 
 const MAX_SELECTED_TOPICS = 5;
-const topics = [
-  {
-    name: "ก่อสร้างอาคารและถนน",
-    emoji: "🏗",
-    motto: "ตึกรามงามตา"
-  },
-  {
-    name: "กีฬาและวัฒนธรรม",
-    emoji: "🚣‍♂️",
-    motto: "กีฬาดี ดนตรีเด่น"
-  },
-  {
-    name: "ความปลอดภัย ไฟส่องสว่าง & CCTV",
-    emoji: "💡",
-    motto: "ปลอดภัยทุกพื้นที่"
-  },
-  {
-    name: "ด้านการแพทย์และสาธารณสุข",
-    emoji: "🏥",
-    motto: "สุขภาพดีถ้วนหน้า"
-  },
-  {
-    name: "ทางเท้า หาบเร่ แผงลอย",
-    emoji: "🚶‍♂️",
-    motto: "ของดีริมถนน"
-  },
-  {
-    name: "ปรับปรุงภูมิทัศน์",
-    emoji: "🎡",
-    motto: "สวยงามสะอาดตา"
-  },
-  { name: "ปัญหาน้ำท่วม", emoji: "🌊", motto: "ระบายน้ำไว" },
-  {
-    name: "ปัญหามลพิษ เช่น ขยะ น้ำเสีย อากาศเสีย",
-    emoji: "🗑",
-    motto: "บ้านเมืองสะอาด"
-  },
-  {
-    name: "ปัญหารถติด",
-    emoji: "🚘",
-    motto: "ขับขี่แคล่วคล่อง"
-  },
-  { name: "พัฒนาการชุมชน", emoji: "🏡", motto: "ยกระดับชุมชน" },
-  {
-    name: "พัฒนาการศึกษา",
-    emoji: "🎓",
-    motto: "ให้คุณค่ากับนักเรียน"
-  },
-  {
-    name: "พัฒนาผังเมือง",
-    emoji: "🗺",
-    motto: "จัดระเบียบบ้านเมือง"
-  },
-  {
-    name: "พื้นที่สีเขียว",
-    emoji: "🌲",
-    motto: "ต้นไม้ใหญ่น้อย"
-  },
-  {
-    name: "ระบบขนส่งสาธารณะ",
-    emoji: "🚍",
-    motto: "เดินทางแสนสะดวก"
-  },
-  {
-    name: "ห้องสมุดและพื้นที่สาธารณะ",
-    emoji: "📚",
-    motto: "พื้นที่แห่งการเรียนรู้"
-  }
-];
 
 export default {
   name: "Game",
@@ -207,6 +140,7 @@ export default {
   },
   methods: {
     ...mapMutations(["saveToStoreCollection"]),
+    ...mapActions(["saveStoreCollectionToFirebase"]),
     selectOption(index) {
       if (this.isSorting) {
         return;
@@ -228,13 +162,19 @@ export default {
         );
         this.state++;
       } else if (this.isSorting) {
-        this.state++;
-      } else {
         this.saveToStoreCollection({
           collection: COLLECTION.Game,
-          data: this.selectedTopics
+          data: {
+            topicIds: this.selectedTopics.map(({ id }) => id)
+          }
         });
 
+        this.saveStoreCollectionToFirebase({
+          collection: COLLECTION.Game
+        });
+
+        this.state++;
+      } else {
         this.$router.push("/game-result");
       }
     }
