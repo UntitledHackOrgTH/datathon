@@ -5,19 +5,21 @@
     title="สร้างเมืองในฝัน"
     subtitle="จินตนาการว่าตัวเองเป็นผู้ว่ากรุงเทพฯ แล้วลองเลือกพัฒนาเมืองตามประเด็นที่คุณสนใจ แล้วลองมาดูกันว่า เมืองในฝันของคุณ กับเมืองในฝันของทุกคน ใกล้เคียงกันหรือไม่?"
   >
-    <div class="flex flex-row">
+    <div class="flex flex-row text-center">
       <div class="flex flex-col space-y-12">
-        <h1 class="text-3xl font-bold text-center">
+        <h1 class="text-3xl font-bold">
           เปรียบเทียบ กรุงเทพในฝันของคุณ และกรุงเทพของทุกๆ คน
         </h1>
-        <div class="flex flex-row space-x-8">
+        <div
+          class="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-8"
+        >
           <div class="flex-1 flex flex-col space-y-8">
             <div>
               <h2 class="text-xl font-bold">กรุงเทพฯ ในฝันของคุณ</h2>
             </div>
             <div class="space-y-8">
               <Motto :topics="userTopics" />
-              <EmojiMap :topics="userTopics" :fontSizeMultiplier="1" />
+              <EmojiMap :topics="userTopics" />
             </div>
             <div class="flex-1 flex flex-col space-y-8">
               <div class="grid grid-cols-1 gap-2">
@@ -40,7 +42,7 @@
             </div>
             <div class="space-y-8">
               <Motto :topics="overallTopics" />
-              <EmojiMap :topics="overallTopics" :fontSizeMultiplier="1" />
+              <EmojiMap :topics="overallTopics" />
             </div>
             <div class="flex-1 flex flex-col space-y-8">
               <div class="grid grid-cols-1 gap-2">
@@ -54,7 +56,7 @@
             </div>
           </div>
         </div>
-        <div class="text-center">
+        <div>
           <router-link
             to="/construction"
             class="block rounded bg-gray-300 px-4 py-2 w-64 m-auto"

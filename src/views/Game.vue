@@ -58,7 +58,7 @@
 
       <div v-if="isReviewing" class="space-y-8 mb-12">
         <Motto :topics="selectedTopics" />
-        <EmojiMap :topics="selectedTopics" :fontSizeMultiplier="2" />
+        <EmojiMap :topics="selectedTopics" />
       </div>
 
       <div v-if="isReviewing" class="text-center">

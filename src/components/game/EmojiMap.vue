@@ -21,7 +21,7 @@ const sizeList = [12, 10, 8, 6, 4];
 
 export default {
   name: "EmojiMap",
-  props: ["topics", "fontSizeMultiplier"],
+  props: ["topics"],
   components: {
     BangkokMap
   },
