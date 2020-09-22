@@ -1,17 +1,13 @@
 <template>
   <div class="relative">
-    <div class="flex flex-row absolute inset-0 pb-24">
-      <div class="flex flex-row justify-center m-auto">
-        <div
-          v-for="(emoji, index) in emojis"
-          :key="index"
-          class="flex flex-col justify-end leading-none px-2"
-          :style="
-            `fontSize: ${(emojis.length - index) * fontSizeMultiplier}em;`
-          "
-        >
-          {{ emoji }}
-        </div>
+    <div class="absolute flex flex-row emoji-container">
+      <div
+        v-for="(emoji, index) in emojis"
+        :key="index"
+        class="flex flex-col justify-end mx-autop px-1"
+        :style="`width: ${sizeListInPercent[index]}%;`"
+      >
+        <img :src="`./svgs/${emoji}.svg`" class="w-full" />
       </div>
     </div>
     <BangkokMap />
@@ -20,6 +16,8 @@
 
 <script>
 import BangkokMap from "./BangkokMap";
+
+const sizeList = [12, 10, 8, 6, 4];
 
 export default {
   name: "EmojiMap",
@@ -30,7 +28,26 @@ export default {
   computed: {
     emojis() {
       return this.topics.map(({ emoji }) => emoji);
+    },
+    sizeListInPercent() {
+      const sum = sizeList.reduce((count, size) => count + size, 0);
+
+      return sizeList.map(size => Math.floor((size * 100) / sum));
     }
   }
 };
 </script>
+
+<style lang="scss">
+.emoji-container {
+  top: 0;
+  right: 10%;
+  left: 10%;
+
+  @media (min-width: 768px) {
+    top: 0;
+    right: 20%;
+    left: 20%;
+  }
+}
+</style>
