@@ -45,7 +45,7 @@ export default {
   left: 10%;
 
   @media (min-width: 768px) {
-    top: 0;
+    top: 10%;
     right: 20%;
     left: 20%;
   }

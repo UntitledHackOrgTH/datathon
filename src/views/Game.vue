@@ -24,9 +24,14 @@
           }}
         </p>
       </div>
+
+      <div class="md:hidden text-center" v-if="isSorting">
+        &#129045; สำคัญมากที่สุด
+      </div>
+
       <draggable
         tag="div"
-        class="grid grid-cols-5 gap-4 my-8"
+        class="grid grid-cols-1 md:grid-cols-5 gap-4 my-8"
         v-model="selectedTopics"
         v-if="!isReviewing"
         :animation="200"
@@ -42,9 +47,13 @@
         />
       </draggable>
 
-      <div class="flex flex-row" v-if="isSorting">
-        <div class="flex-1">&lt; สำคัญมากที่สุด</div>
-        <div>สำคัญน้อยที่สุด &gt;</div>
+      <div class="md:hidden text-center" v-if="isSorting">
+        &#129047; สำคัญน้อยที่สุด
+      </div>
+
+      <div class="hidden md:flex flex-row" v-if="isSorting">
+        <div class="flex-1">&#129044; สำคัญมากที่สุด</div>
+        <div>สำคัญน้อยที่สุด &#129046;</div>
       </div>
 
       <div v-if="isReviewing" class="space-y-8 mb-12">
@@ -156,9 +165,14 @@ export default {
     },
     next() {
       if (this.isSelecting) {
+        if (this.numberOfSelectableTopic > 0) {
+          return;
+        }
+
         this.selectedTopics = this.topics.filter(
           ({ isSelected }) => isSelected
         );
+
         this.state++;
       } else if (this.isSorting) {
         this.saveUserData({
